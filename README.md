@@ -1,6 +1,6 @@
-# inLama
+# inLama-rs
 
-A powerful CLI tool that seamlessly integrates Large Language Models (LLMs) into your command-line workflow, enabling intelligent text processing through simple Unix-style pipes.
+A powerful CLI tool written in Rust that seamlessly integrates Large Language Models (LLMs) into your command-line workflow, enabling intelligent text processing through simple Unix-style pipes.
 
 ## Description
 
@@ -17,31 +17,24 @@ Perfect for developers, system administrators, and anyone who needs to analyze, 
 
 ### Prerequisites
 
-- Go 1.16 or higher
+- Rust and Cargo (1.70 or higher recommended)
 - Running Ollama server (default: http://localhost:11434)
-- Make (optional, for using Makefile commands)
 
-### Quick Install
+### From Cargo
+
+```bash
+cargo install inlama
+```
+
+### From Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/NishantJoshi00/inlama.git
-cd inlama
+git clone https://github.com/yourusername/inlama-rs.git
+cd inlama-rs
 
 # Build and install
-make install
-
-# If you encounter permission issues
-sudo make install
-```
-
-### Manual Build
-
-```bash
-# Build only
-make build
-
-# The binary will be available in bin/inlama
+cargo install --path .
 ```
 
 ## Usage
@@ -68,28 +61,46 @@ Set up shell completion for enhanced usability:
 
 ```bash
 # Bash
-source <(inlama --completion bash)
+inlama completion bash > ~/.bash_completion.d/inlama
 
 # Zsh
-source <(inlama --completion zsh)
+inlama completion zsh > ~/.zfunc/_inlama
 
 # Fish
-inlama --completion fish | source
+inlama completion fish > ~/.config/fish/completions/inlama.fish
 ```
 
 ### Configuration Options
 
-- `-f, --follow`: Enable streaming mode for continuous input
+- `-f, --stream`: Enable streaming mode for continuous input
 - `-p, --prompt`: Set custom system prompt
 - `-b, --buffer-time`: Set buffer time for streaming (seconds)
 - `-u, --url`: Set custom Ollama server URL
 - `-m, --model`: Specify LLM model to use
-- `--completion`: Generate shell completion scripts
 
-### Environment Variables
+### Configuration File
 
+Create a configuration file at one of these locations:
+- `~/.config/inlama/config.toml`
+- `~/.inlama.toml`
+
+Or specify a custom location using the environment variable:
 ```bash
 CONFIG_FILE=/path/to/config.toml inlama
+```
+
+Example configuration:
+
+```toml
+stream = false
+prompt = "Generate a one line summary of the following text."
+buffer_time = 1
+url = "http://localhost:11434"
+model = "llama3"
+presets = [
+  "Generate a one line summary of the following text.",
+  "Translate this text to French."
+]
 ```
 
 ## Features
@@ -114,7 +125,7 @@ CONFIG_FILE=/path/to/config.toml inlama
    - [FEATURE] for feature requests
    - [DOCS] for documentation improvements
 3. **Testing**: Ensure your changes don't break existing functionality
-4. **Code Style**: Follow Go standard formatting guidelines
+4. **Code Style**: Follow Rust standard formatting guidelines with `cargo fmt`
 5. **Documentation**: Update relevant documentation for any changes
 
 ## License
